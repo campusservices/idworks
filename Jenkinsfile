@@ -1,11 +1,6 @@
 pipeline {
   agent any
   stages {
-   stage('Compile') {
-     steps { 
-      sh './mvnw clean install package'
-      }
-   } 
     stage('Deploy') {
         steps { 
           echo 'echo Deploy to Container'

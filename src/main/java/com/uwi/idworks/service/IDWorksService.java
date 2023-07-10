@@ -25,9 +25,6 @@ public class IDWorksService {
 	Logger logger = LoggerFactory.getLogger(IDWorksService.class);
 	
 	@Autowired
-	private OverrideDao overrideDao;
-	
-	@Autowired
 	private OracleDao oracleDao;
 	
 	@Autowired
@@ -38,7 +35,6 @@ public class IDWorksService {
 	public void performUpdates( ) {
 		String overrideSemester = System.getenv("OVERRIDE_SEMESTER");
 		String term = overrideSemester == "true" ? System.getenv("SEMESTER"):null;
-		
 		try {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();

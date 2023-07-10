@@ -42,6 +42,7 @@ public class OracleDao extends Queries {
 
 			logger.info("Starting Oracle Db");
 			Class.forName( service.getDriver());
+			logger.info("{} {} {}", service.getConnect(), service.getUsername(), service.getPassword());
 			conn = DriverManager.getConnection(service.getConnect(), 
 															service.getUsername(), 
 															service.getPassword());

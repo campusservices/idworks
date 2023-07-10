@@ -2,7 +2,9 @@ pipeline {
   agent any
   stages {
    stage('Compile') {
+     steps { 
       sh './mvnw clean install package'
+      }
    } 
     stage('Deploy') {
         steps { 
@@ -25,9 +27,11 @@ pipeline {
         }
     }
 	stage('Build') {
-	    sh "pwd"
-        sh 'docker-compose down'
-        sh 'docker-compose up --detach --build'  
+	    steps { 
+		    sh "pwd"
+	        sh 'docker-compose down'
+	        sh 'docker-compose up --detach --build'  
+        }
     }
   }
 }

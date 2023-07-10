@@ -2,21 +2,21 @@ pipeline {
   agent any
   stages {
    stage('Compile') {
-      sh './mvnw -B -DskipTests clean package'
+      sh './mvnw clean install package'
    } 
     stage('Deploy') {
         steps { 
           echo 'echo Deploy to Container'
 
            script  {
-              def containerName = "idWorksContainer"
+              def containerName = "idworkscontainer"
               
               def containerExists = sh(script: "docker ps -q -f name=${containerName}", returnStdout: true) == 0
 
               if (containerExists) then {
                       sh 'echo cleanup'
-                      sh 'docker stop idWorksContainer'
-                      sh 'docker rm idWorksContainer'
+                      sh 'docker stop idworkscontainer'
+                      sh 'docker rm idworkscontainer'
               } else {
                sh 'echo container does not exist'
               

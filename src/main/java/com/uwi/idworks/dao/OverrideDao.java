@@ -55,16 +55,14 @@ public class OverrideDao {
 
 		String term = null;
 		try {
-			String selectStatement = "select * from overridesemester where override = 1";
+			String selectStatement = "select override,semester from overridesemester where override = 1";
 			PreparedStatement prepStmt = conn.prepareStatement(selectStatement);
 
 			prepStmt.execute("use lookups");
 			ResultSet rs = prepStmt.executeQuery();
 
 			if (rs.next()) {
-				if (rs.getBoolean(2)) {
-					term = rs.getString(3);
-				}
+					term = rs.getString(2);
 			}
 
 		} catch (SQLException ex) {

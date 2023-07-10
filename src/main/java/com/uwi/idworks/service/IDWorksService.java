@@ -36,7 +36,9 @@ public class IDWorksService {
 	@Scheduled(cron="0 15 5 ? * MON-SUN")
 //	@Scheduled(initialDelay = 1000, fixedRate = 40000)
 	public void performUpdates( ) {
-		String term = overrideDao.overrideSemester();
+		String overrideSemester = System.getenv("OVERRIDE_SEMESTER");
+		String term = overrideSemester == "true" ? System.getenv("SEMESTER"):null;
+		
 		try {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();

@@ -25,7 +25,7 @@ pipeline {
 	    steps { 
 		    sh "pwd"
 	        sh 'docker-compose down'
-	        sh 'docker-compose up --detach --build'  
+	        sh 'OVERRIDE_SEMESTER=${ENV_OVERRIDE_SEMESTER} SEMESTER=${ENV_SEMESTER} docker-compose up --detach --build'  
         }
     }
   }

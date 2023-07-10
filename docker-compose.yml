@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  api:
+    container_name: api
+    image: idworks
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8084:8080
+    restart: always   
+
+volumes:
+  mysqldb:

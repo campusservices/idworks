@@ -29,7 +29,7 @@ public class IDWorksService {
 	@Autowired
 	private IDWorksDao worksDao;
 	
-	@Scheduled(cron="0 15 5 ? * MON-SUN")
+	@Scheduled(cron="0 15 7 ? * MON-SUN")
 //	@Scheduled(initialDelay = 1000, fixedRate = 40000)
 	public void performUpdates( ) {
 		String overrideSemester = System.getenv("OVERRIDE_SEMESTER");

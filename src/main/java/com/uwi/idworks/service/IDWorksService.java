@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import com.uwi.idworks.dao.IDWorksDao;
 import com.uwi.idworks.dao.OracleDao;
+import com.uwi.idworks.dao.OverrideDao;
 import com.uwi.idworks.entity.BannerStudentInfo;
 import com.uwi.idworks.entity.IDWorksInfo;
 
@@ -32,8 +33,10 @@ public class IDWorksService {
 	@Scheduled(cron="0 15 7 ? * MON-SUN")
 //	@Scheduled(initialDelay = 1000, fixedRate = 40000)
 	public void performUpdates( ) {
+		
 		String overrideSemester = System.getenv("OVERRIDE_SEMESTER");
 		String term = overrideSemester == "true" ? System.getenv("SEMESTER"):null;
+
 		try {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();

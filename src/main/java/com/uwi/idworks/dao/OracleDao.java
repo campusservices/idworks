@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.uwi.idworks.config.OracleConfig;
 import com.uwi.idworks.entity.BannerStudentInfo;
 import com.uwi.idworks.query.Queries;
@@ -22,18 +23,18 @@ import com.uwi.idworks.util.NewDateFormatter;
 @Service
 public class OracleDao extends Queries {
 
-	
 	Logger logger = LoggerFactory.getLogger(OracleDao.class);
 	
     @SuppressWarnings("unused")
     
-	@Autowired
+    @Autowired
     private final OracleConfig service;
     
     private Connection conn;
 	
     private String strDate;
     
+ 
 	public OracleDao(OracleConfig service) {
 
 		this.service = service;
@@ -57,6 +58,22 @@ public class OracleDao extends Queries {
         
 	}
 	
+	private ComboPooledDataSource getPooledDataSource() {
+		
+		    ComboPooledDataSource cpds = new ComboPooledDataSource();
+		    cpds.setJdbcUrl(service.getConnect());
+			cpds.setUser(service.getUsername());
+			cpds.setPassword(service.getPassword());
+			
+	        // Optional Settings
+	        cpds.setInitialPoolSize(5);
+	        cpds.setMinPoolSize(5);
+	        cpds.setAcquireIncrement(5);
+	        cpds.setMaxPoolSize(20);
+	        cpds.setMaxStatements(100);
+	        
+	        return cpds;
+	}
     public Long findPidm(String studentId) {
 		
 		Long pidm = 0L;
@@ -64,7 +81,8 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
 
 		try {
-
+			ComboPooledDataSource dataSource = getPooledDataSource();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
 			prepStmt.setString(1, studentId);
 			ResultSet rs = prepStmt.executeQuery();
@@ -128,7 +146,8 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
 
 		try {
-
+			ComboPooledDataSource dataSource = getPooledDataSource();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
 			prepStmt.setString(1, id);
 			ResultSet rs = prepStmt.executeQuery();
@@ -152,10 +171,10 @@ public class OracleDao extends Queries {
     	String sqlstmt = "SELECT stvcoll_desc FROM stvcoll WHERE stvcoll_code = ?"; 
     	
     	try {
+    		ComboPooledDataSource dataSource = getPooledDataSource();
+			Connection conn = dataSource.getConnection();
     		PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
     		prepStmt.setString(1, fcode);
-    		
-    		
     		ResultSet rs = prepStmt.executeQuery();
 
 			int i = 0;
@@ -181,9 +200,9 @@ public class OracleDao extends Queries {
 		ArrayList<BannerStudentInfo> studentStatusMap = new ArrayList<BannerStudentInfo>();
 		String selectStatement =this.getStudentQuery();
 		try {
-
+			ComboPooledDataSource dataSource = getPooledDataSource();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(selectStatement);
-
 			prepStmt.setString(1, "AS");
 			prepStmt.setString(2, "EX");
 			prepStmt.setString(3, "CE");
@@ -275,14 +294,15 @@ public class OracleDao extends Queries {
 		}
         return studentStatusMap;
 	}
-public String getCurrentTerm() {
+    public String getCurrentTerm() {
 		String term = null;
 		NewDateFormatter df = new NewDateFormatter();
 	    
 		String sqlstmt = "select min(stvterm_code) as maxtermcode from stvterm where stvterm_start_date <= ? and stvterm_end_date >= ? and stvterm_code not in ('201905') and stvterm_desc not like  '%Year%Long%'";
 		
 		try {
-
+			ComboPooledDataSource dataSource = getPooledDataSource();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
             prepStmt.setDate(1, java.sql.Date.valueOf((df.getSimpleDate())));
 			prepStmt.setDate(2, java.sql.Date.valueOf(df.getSimpleDate()));

@@ -11,4 +11,4 @@ services:
      - "8084:8080"
    image: campusservices/idworks
    container_name: idworkscontainer
-   tty: true
+   restart: always

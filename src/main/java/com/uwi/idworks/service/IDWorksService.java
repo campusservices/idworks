@@ -100,7 +100,7 @@ public class IDWorksService {
 			e.printStackTrace();
 		}
 	}
-	@Scheduled(cron="0 15 10 ? * MON-SUN")
+	@Scheduled(cron="0 30 11 ? * MON-SUN")
 	public void performLaterUpdates( ) {
 		 performUpdates();
 	}

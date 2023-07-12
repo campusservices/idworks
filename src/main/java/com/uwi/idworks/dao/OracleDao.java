@@ -34,28 +34,11 @@ public class OracleDao extends Queries {
 	
     private String strDate;
     
+    private ComboPooledDataSource dataSource;
  
 	public OracleDao(OracleConfig service) {
-
 		this.service = service;
-		
-		try {
-
-			logger.info("Starting Oracle Db");
-			Class.forName( service.getDriver());
-			logger.info("{} {} {} {}", service.getDriver(), service.getConnect(), service.getUsername(), service.getPassword());
-			conn = DriverManager.getConnection(service.getConnect(), 
-															service.getUsername(), 
-															service.getPassword());
-			
-			conn.setAutoCommit(true);
-			logger.info("Oracle Db Started");
-		} catch (ClassNotFoundException e) {
-			logger.info("Driver class not found - {}", e.getMessage());
-		} catch (SQLException ex) {
-			logger.info("Connection error - {}", ex.getMessage());
-		}
-        
+		dataSource = getPooledDataSource();
 	}
 	
 	private ComboPooledDataSource getPooledDataSource() {
@@ -81,7 +64,6 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
 
 		try {
-			ComboPooledDataSource dataSource = getPooledDataSource();
 			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
 			prepStmt.setString(1, studentId);
@@ -146,7 +128,6 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
 
 		try {
-			ComboPooledDataSource dataSource = getPooledDataSource();
 			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
 			prepStmt.setString(1, id);
@@ -171,8 +152,7 @@ public class OracleDao extends Queries {
     	String sqlstmt = "SELECT stvcoll_desc FROM stvcoll WHERE stvcoll_code = ?"; 
     	
     	try {
-    		ComboPooledDataSource dataSource = getPooledDataSource();
-			Connection conn = dataSource.getConnection();
+    		Connection conn = dataSource.getConnection();
     		PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
     		prepStmt.setString(1, fcode);
     		ResultSet rs = prepStmt.executeQuery();
@@ -200,7 +180,6 @@ public class OracleDao extends Queries {
 		ArrayList<BannerStudentInfo> studentStatusMap = new ArrayList<BannerStudentInfo>();
 		String selectStatement =this.getStudentQuery();
 		try {
-			ComboPooledDataSource dataSource = getPooledDataSource();
 			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(selectStatement);
 			prepStmt.setString(1, "AS");
@@ -301,7 +280,6 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select min(stvterm_code) as maxtermcode from stvterm where stvterm_start_date <= ? and stvterm_end_date >= ? and stvterm_code not in ('201905') and stvterm_desc not like  '%Year%Long%'";
 		
 		try {
-			ComboPooledDataSource dataSource = getPooledDataSource();
 			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
             prepStmt.setDate(1, java.sql.Date.valueOf((df.getSimpleDate())));

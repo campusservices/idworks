@@ -147,14 +147,14 @@ public class OracleDao extends Queries {
 		return pidm;
 
 	}
-	private String getFaculty(String fcode){
+	private String getFaculty(Connection conn, String fcode){
 	    
     	String faculty = null;
     	String sqlstmt = "SELECT stvcoll_desc FROM stvcoll WHERE stvcoll_code = ?"; 
     	
     	try {
     		
-    		PreparedStatement prepStmt = getDataSource().prepareStatement(sqlstmt);
+    		PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
     		prepStmt.setString(1, fcode);
     		ResultSet rs = prepStmt.executeQuery();
 
@@ -239,7 +239,7 @@ public class OracleDao extends Queries {
 				} else if (rs.getString(7).equals("SP")){
 					faculty = "Social Sciences";
 				} else {
-					faculty = getFaculty(rs.getString(7));
+					faculty = getFaculty(conn, rs.getString(7));
 					faculty = faculty.replace(",", " ");
 				}
 				

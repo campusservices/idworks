@@ -34,11 +34,11 @@ public class OracleDao extends Queries {
 	
     private String strDate;
     
-    private ComboPooledDataSource dataSource;
+    
  
 	public OracleDao(OracleConfig service) {
 		this.service = service;
-		dataSource = getPooledDataSource();
+		
 	}
 	
 	private ComboPooledDataSource getPooledDataSource() {
@@ -64,6 +64,7 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
 
 		try {
+			ComboPooledDataSource dataSource = getPooledDataSource();
 			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
 			prepStmt.setString(1, studentId);
@@ -74,7 +75,7 @@ public class OracleDao extends Queries {
 
 			rs.close();
 			prepStmt.close();
-
+			conn.close();
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
@@ -128,6 +129,7 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
 
 		try {
+			ComboPooledDataSource dataSource = getPooledDataSource();
 			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
 			prepStmt.setString(1, id);
@@ -138,7 +140,8 @@ public class OracleDao extends Queries {
 
 			rs.close();
 			prepStmt.close();
-
+            conn.close();
+            
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
@@ -152,6 +155,7 @@ public class OracleDao extends Queries {
     	String sqlstmt = "SELECT stvcoll_desc FROM stvcoll WHERE stvcoll_code = ?"; 
     	
     	try {
+    		ComboPooledDataSource dataSource = getPooledDataSource();
     		Connection conn = dataSource.getConnection();
     		PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
     		prepStmt.setString(1, fcode);
@@ -164,7 +168,8 @@ public class OracleDao extends Queries {
 			}
     		rs.close();
     		prepStmt.close();
-			
+    		conn.close();
+    		
     	} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -180,6 +185,7 @@ public class OracleDao extends Queries {
 		ArrayList<BannerStudentInfo> studentStatusMap = new ArrayList<BannerStudentInfo>();
 		String selectStatement =this.getStudentQuery();
 		try {
+			ComboPooledDataSource dataSource = getPooledDataSource();
 			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(selectStatement);
 			prepStmt.setString(1, "AS");
@@ -266,7 +272,8 @@ public class OracleDao extends Queries {
 			
 			prepStmt.close();
 			rs.close();
-
+            conn.close();
+            
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -280,6 +287,7 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select min(stvterm_code) as maxtermcode from stvterm where stvterm_start_date <= ? and stvterm_end_date >= ? and stvterm_code not in ('201905') and stvterm_desc not like  '%Year%Long%'";
 		
 		try {
+			ComboPooledDataSource dataSource = getPooledDataSource();
 			Connection conn = dataSource.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
             prepStmt.setDate(1, java.sql.Date.valueOf((df.getSimpleDate())));
@@ -311,6 +319,8 @@ public class OracleDao extends Queries {
 
 				rs1.close();
 				prepStmt1.close();
+				conn.close();
+				
 			}
 
 			/* Only use for XRUN */

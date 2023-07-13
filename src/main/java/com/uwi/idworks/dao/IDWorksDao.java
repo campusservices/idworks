@@ -23,10 +23,15 @@ public class IDWorksDao {
 	Logger logger = LoggerFactory.getLogger(IDWorksDao.class);
 	
 	 public IDWorksDao() {
-		  try
+		  
+	  }
+	 
+	 private Connection getConnection() {
+		 Connection conn = null;
+		 try
 	      {
 	          Class.forName("net.sourceforge.jtds.jdbc.Driver");
-	          idconn = DriverManager.getConnection(
+	          conn = DriverManager.getConnection(
 	          "jdbc:jtds:sqlserver://ACCELUS:1433/UWI_IDWorks","sa","admin");
 	          logger.info("connected to ID Works DB");
 	          
@@ -35,7 +40,8 @@ public class IDWorksDao {
 	      {
 	          e.printStackTrace();
 	      }
-	  }
+		 return conn;
+	 }
 	 public void closeConnection() {
 		 try {
 			idconn.close();
@@ -50,7 +56,8 @@ public class IDWorksDao {
 			String selectStatement =
 		    	 "select HolderID,lastName,FirstName,MI,UserType,Department from IDWorks_PrintData";
 		    try {
-	          PreparedStatement prepStmt = idconn.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_SENSITIVE, 
+		    	Connection conn = getConnection();
+	          PreparedStatement prepStmt = conn.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_SENSITIVE, 
 	                  ResultSet.CONCUR_UPDATABLE);
 	          
 	          ResultSet rs = prepStmt.executeQuery();
@@ -67,7 +74,7 @@ public class IDWorksDao {
 	        	  
 	        	  idworkslist.add(s);
 	          }
-	          
+	          conn.close();
 	         logger.info("ID Works Data Gathered Successfully");
 		   } catch (Exception e){
 			   logger.info("Error accessing data from ID Works DB - {}",e.getMessage());
@@ -78,8 +85,8 @@ public class IDWorksDao {
 		 try {
 		    	String insertStatement = "insert into IDWorks_PrintData values ( ? , ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		    	
-		    	
-		        PreparedStatement prepStmt = idconn.prepareStatement(insertStatement);
+		    	Connection conn = getConnection();
+		        PreparedStatement prepStmt = conn.prepareStatement(insertStatement);
 		        NewDateFormatter f = new NewDateFormatter();
 		        
 		        prepStmt.setString(1, t.getHolderid().trim());
@@ -109,11 +116,13 @@ public class IDWorksDao {
 		        prepStmt.close();
 		        
 		        logger.info("inserted - {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname());
+		    	conn.close();
 		    	
 		    } catch (SQLException e){
 		    	logger.info(e.getMessage());
 		    	logger.info("Insert Failed - {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname());
 		    }
+		   
 	 }
 	 private String getIntitals(String initial) {
 		 String finalInitial = "";
@@ -135,7 +144,8 @@ public class IDWorksDao {
 				"department = ?, usertype = ?,c_type = ? " +
 				"where holderid = ?";
 	       try {
-			       PreparedStatement prepStmt = idconn.prepareStatement(updateStatement);
+	    	       Connection conn = getConnection();
+			       PreparedStatement prepStmt = conn.prepareStatement(updateStatement);
 			       if (t.getLevel() != null) {
 				       prepStmt.setString(1, t.getHolderid());
 				       prepStmt.setString(2, t.getLastname().toUpperCase().trim());
@@ -149,6 +159,8 @@ public class IDWorksDao {
 			           prepStmt.close();
 				       
 			           logger.info("updated - {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname());
+			           conn.close();
+			           
 			        }
 	       } catch (SQLException e){
 	    	   logger.info("updated - {} {} {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname(),t.getFaculty(), t.getLevel());

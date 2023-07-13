@@ -41,21 +41,24 @@ public class OracleDao extends Queries {
 		
 	}
 	
-	private ComboPooledDataSource getPooledDataSource() {
-		
-		    ComboPooledDataSource cpds = new ComboPooledDataSource();
-		    cpds.setJdbcUrl(service.getConnect());
-			cpds.setUser(service.getUsername());
-			cpds.setPassword(service.getPassword());
+	private Connection getDataSource() {
+		Connection conn = null;
+		try {
+
+			logger.info("Starting Oracle Db");
+			Class.forName( service.getDriver());
+			conn = DriverManager.getConnection(service.getConnect(), 
+															service.getUsername(), 
+															service.getPassword());
 			
-	        // Optional Settings
-	        cpds.setInitialPoolSize(5);
-	        cpds.setMinPoolSize(5);
-	        cpds.setAcquireIncrement(5);
-	        cpds.setMaxPoolSize(20);
-	        cpds.setMaxStatements(100);
-	        
-	        return cpds;
+			conn.setAutoCommit(true);
+			logger.info("Oracle Db Started");
+		} catch (ClassNotFoundException e) {
+			logger.info("Driver class not found - {}", e.getMessage());
+		} catch (SQLException ex) {
+			logger.info("Connection error - {}", ex.getMessage());
+		}
+        return  conn; 
 	}
     public Long findPidm(String studentId) {
 		
@@ -64,9 +67,7 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
 
 		try {
-			ComboPooledDataSource dataSource = getPooledDataSource();
-			Connection conn = dataSource.getConnection();
-			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
+			PreparedStatement prepStmt = getDataSource().prepareStatement(sqlstmt);
 			prepStmt.setString(1, studentId);
 			ResultSet rs = prepStmt.executeQuery();
 			while (rs.next()) {
@@ -122,16 +123,14 @@ public class OracleDao extends Queries {
 		}
 		return range;
 	}
-	public int getPidm(String id) {
+	private int getPidm(Connection conn, String id) {
 
 		int pidm = 0;
 
 		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
 
 		try {
-			ComboPooledDataSource dataSource = getPooledDataSource();
-			Connection conn = dataSource.getConnection();
-			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
+			PreparedStatement prepStmt =  conn.prepareStatement(sqlstmt);
 			prepStmt.setString(1, id);
 			ResultSet rs = prepStmt.executeQuery();
 			while (rs.next()) {
@@ -140,7 +139,6 @@ public class OracleDao extends Queries {
 
 			rs.close();
 			prepStmt.close();
-            conn.close();
             
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
@@ -155,9 +153,8 @@ public class OracleDao extends Queries {
     	String sqlstmt = "SELECT stvcoll_desc FROM stvcoll WHERE stvcoll_code = ?"; 
     	
     	try {
-    		ComboPooledDataSource dataSource = getPooledDataSource();
-    		Connection conn = dataSource.getConnection();
-    		PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
+    		
+    		PreparedStatement prepStmt = getDataSource().prepareStatement(sqlstmt);
     		prepStmt.setString(1, fcode);
     		ResultSet rs = prepStmt.executeQuery();
 
@@ -185,8 +182,7 @@ public class OracleDao extends Queries {
 		ArrayList<BannerStudentInfo> studentStatusMap = new ArrayList<BannerStudentInfo>();
 		String selectStatement =this.getStudentQuery();
 		try {
-			ComboPooledDataSource dataSource = getPooledDataSource();
-			Connection conn = dataSource.getConnection();
+			Connection conn = getDataSource();
 			PreparedStatement prepStmt = conn.prepareStatement(selectStatement);
 			prepStmt.setString(1, "AS");
 			prepStmt.setString(2, "EX");
@@ -219,7 +215,7 @@ public class OracleDao extends Queries {
 
 				stu.setId(rs.getString(1));
 				stu.setTerm(rs.getString(2));
-				stu.setPidm(getPidm(rs.getString(1)));
+				stu.setPidm(getPidm(conn,rs.getString(1)));
 				stu.setLastname(rs.getString(3));
 				stu.setFirstname(rs.getString(4));
 				stu.setInitial(rs.getString(5));
@@ -287,9 +283,7 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select min(stvterm_code) as maxtermcode from stvterm where stvterm_start_date <= ? and stvterm_end_date >= ? and stvterm_code not in ('201905') and stvterm_desc not like  '%Year%Long%'";
 		
 		try {
-			ComboPooledDataSource dataSource = getPooledDataSource();
-			Connection conn = dataSource.getConnection();
-			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
+			PreparedStatement prepStmt = getDataSource().prepareStatement(sqlstmt);
             prepStmt.setDate(1, java.sql.Date.valueOf((df.getSimpleDate())));
 			prepStmt.setDate(2, java.sql.Date.valueOf(df.getSimpleDate()));
 

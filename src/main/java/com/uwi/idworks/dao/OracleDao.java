@@ -165,7 +165,6 @@ public class OracleDao extends Queries {
 			}
     		rs.close();
     		prepStmt.close();
-    		conn.close();
     		
     	} catch (SQLException e) {
 			e.printStackTrace();

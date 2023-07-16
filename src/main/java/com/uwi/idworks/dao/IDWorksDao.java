@@ -33,7 +33,6 @@ public class IDWorksDao {
 	          Class.forName("net.sourceforge.jtds.jdbc.Driver");
 	          conn = DriverManager.getConnection(
 	          "jdbc:jtds:sqlserver://ACCELUS:1433/UWI_IDWorks","sa","admin");
-	          logger.info("connected to ID Works DB");
 	          
 	      }
 	      catch (Exception e)

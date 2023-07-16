@@ -75,7 +75,7 @@ public class IDWorksDao {
 	        	  idworkslist.add(s);
 	          }
 	          conn.close();
-	         logger.info("ID Works Data Gathered Successfully");
+	         
 		   } catch (Exception e){
 			   logger.info("Error accessing data from ID Works DB - {}",e.getMessage());
 		   }

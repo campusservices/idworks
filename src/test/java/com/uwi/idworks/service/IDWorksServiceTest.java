@@ -67,7 +67,7 @@ class IDWorksServiceTest {
 	OracleConnection oracleConnection;
 	
 	@Mock
-	private Queries queries;
+	private Queries query;
 	
 	@Mock
 	private PreparedStatement prepStmt;
@@ -82,13 +82,13 @@ class IDWorksServiceTest {
 	    ArrayList<IDWorksInfo> worksList = new ArrayList<IDWorksInfo>();
 	    oracleConnection = mock(OracleConnection.class);
 	    conn = mock(Connection.class);
-	    queries = mock(Queries.class);
+	    query = mock(Queries.class);
 	    service = mock(OracleConfig.class);
+	    oracleDao = mock(OracleDao.class);
 	    
-	    
-	    when(queries.getStudentQuery()).thenReturn(selectStatement);
+	    when(query.getStudentQuery()).thenReturn(selectStatement);
 	    when(oracleConnection.getConnection()).thenReturn(conn);
-	    when(conn.prepareStatement(queries.getStudentQuery())).thenReturn(prepStmt);
+	    when(conn.prepareStatement(query.getStudentQuery())).thenReturn(prepStmt);
 	    when(oracleDao.collectInfo("202230")).thenReturn(list); 
 	    when(worksDao.gatherIDWorksData()).thenReturn(worksList);
 		when(service.getDriver()).thenReturn(oracleConfig.getDriver());
@@ -147,13 +147,13 @@ class IDWorksServiceTest {
 	    ArrayList<IDWorksInfo> worksList = new ArrayList<IDWorksInfo>();
 	    oracleConnection = mock(OracleConnection.class);
 	    conn = mock(Connection.class);
-	    queries = mock(Queries.class);
+	    query = mock(Queries.class);
 	    service = mock(OracleConfig.class);
 	    
 	    
-	    when(queries.getStudentQuery()).thenReturn(selectStatement);
+	    when(query.getStudentQuery()).thenReturn(selectStatement);
 	    when(oracleConnection.getConnection()).thenReturn(conn);
-	    when(conn.prepareStatement(queries.getStudentQuery())).thenReturn(prepStmt);
+	    when(conn.prepareStatement(query.getStudentQuery())).thenReturn(prepStmt);
 	    when(oracleDao.collectInfo("202230")).thenReturn(list); 
 	    when(worksDao.gatherIDWorksData()).thenReturn(worksList);
 		when(service.getDriver()).thenReturn(oracleConfig.getDriver());
@@ -212,13 +212,13 @@ class IDWorksServiceTest {
 	    ArrayList<IDWorksInfo> worksList = new ArrayList<IDWorksInfo>();
 	    oracleConnection = mock(OracleConnection.class);
 	    conn = mock(Connection.class);
-	    queries = mock(Queries.class);
+	    query = mock(Queries.class);
 	    service = mock(OracleConfig.class);
 	    
 	    
-	    when(queries.getStudentQuery()).thenReturn(selectStatement);
+	    when(query.getStudentQuery()).thenReturn(selectStatement);
 	    when(oracleConnection.getConnection()).thenReturn(conn);
-	    when(conn.prepareStatement(queries.getStudentQuery())).thenReturn(prepStmt);
+	    when(conn.prepareStatement(query.getStudentQuery())).thenReturn(prepStmt);
 	    when(oracleDao.collectInfo("202230")).thenReturn(list); 
 	    when(worksDao.gatherIDWorksData()).thenReturn(worksList);
 		when(service.getDriver()).thenReturn(oracleConfig.getDriver());

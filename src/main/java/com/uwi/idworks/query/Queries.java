@@ -1,5 +1,8 @@
 package com.uwi.idworks.query;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Queries {
    public String getStudentQuery() {
 	   String selectStatement = "SELECT SPRIDEN.SPRIDEN_ID,SGBSTDN.SGBSTDN_TERM_CODE_EFF,   rtrim(utl_raw.cast_to_varchar2((nlssort(SPRIDEN.SPRIDEN_LAST_NAME, 'nls_sort=binary_ai'))),chr(0))  SPRIDEN_LAST_NAME, "

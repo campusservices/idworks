@@ -37,12 +37,6 @@ public class IDWorksServiceImpl implements IDWorksService  {
 	@Autowired
     private final TermConfig termConfig;
 	
-	@Value("${OVERRIDE_SEMESTER}")
-	private String override_semester;
-	
-	@Value("${SEMESTER}")
-	private String semester;
-	
 	public IDWorksServiceImpl(TermConfig termConfig, OracleDao oracleDao, IDWorksDao worksDao) {
 		this.termConfig = termConfig;
 		this.oracleDao = oracleDao;

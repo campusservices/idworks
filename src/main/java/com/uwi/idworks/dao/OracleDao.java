@@ -14,14 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.uwi.idworks.config.OracleConfig;
 import com.uwi.idworks.entity.BannerStudentInfo;
 import com.uwi.idworks.query.Queries;
 import com.uwi.idworks.util.NewDateFormatter;
 
 @Service
-public class OracleDao extends Queries {
+public class OracleDao {
 
 	Logger logger = LoggerFactory.getLogger(OracleDao.class);
 	
@@ -30,36 +29,23 @@ public class OracleDao extends Queries {
     @Autowired
     private final OracleConfig service;
     
-    private Connection conn;
+    @Autowired
+    private final Queries query;
+    
+    @Autowired
+    private final OracleConnection oracleConnection;
 	
     private String strDate;
     
     
  
-	public OracleDao(OracleConfig service) {
+	public OracleDao(OracleConfig service, OracleConnection oracleConnection, Queries query) {
 		this.service = service;
-		
+		this.oracleConnection = oracleConnection;
+		this.query = query;
 	}
 	
-	private Connection getDataSource() {
-		Connection conn = null;
-		try {
 
-			logger.info("Starting Oracle Db");
-			Class.forName( service.getDriver());
-			conn = DriverManager.getConnection(service.getConnect(), 
-															service.getUsername(), 
-															service.getPassword());
-			
-			conn.setAutoCommit(true);
-			logger.info("Oracle Db Started");
-		} catch (ClassNotFoundException e) {
-			logger.info("Driver class not found - {}", e.getMessage());
-		} catch (SQLException ex) {
-			logger.info("Connection error - {}", ex.getMessage());
-		}
-        return  conn; 
-	}
     public Long findPidm(String studentId) {
 		
 		Long pidm = 0L;
@@ -67,7 +53,8 @@ public class OracleDao extends Queries {
 		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
 
 		try {
-			PreparedStatement prepStmt = getDataSource().prepareStatement(sqlstmt);
+			Connection conn = oracleConnection.getConnection();
+			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
 			prepStmt.setString(1, studentId);
 			ResultSet rs = prepStmt.executeQuery();
 			while (rs.next()) {
@@ -77,6 +64,7 @@ public class OracleDao extends Queries {
 			rs.close();
 			prepStmt.close();
 			conn.close();
+			
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
@@ -84,18 +72,6 @@ public class OracleDao extends Queries {
 		return pidm;
 	}
    
-	public Connection getConnection() {
-    	return conn;
-    }
-	public void closeConnection() {
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-}	
-
 	public String[] termRange(String term) {
 
 		String[] range = new String[2];
@@ -174,15 +150,20 @@ public class OracleDao extends Queries {
     	return faculty;
     }
 
+	public ArrayList<BannerStudentInfo>  collectInfoTst(String term)
+	{
+		return new ArrayList<BannerStudentInfo>();
+	}
+	
     public ArrayList<BannerStudentInfo>  collectInfo(String term)
 			throws SQLException, RemoteException {
 		// TODO Auto-generated method stub
 
 		ArrayList<BannerStudentInfo> studentStatusMap = new ArrayList<BannerStudentInfo>();
-		String selectStatement =this.getStudentQuery();
+		
 		try {
-			Connection conn = getDataSource();
-			PreparedStatement prepStmt = conn.prepareStatement(selectStatement);
+			Connection conn = oracleConnection.getConnection();
+			PreparedStatement prepStmt = conn.prepareStatement(query.getStudentQuery());
 			prepStmt.setString(1, "AS");
 			prepStmt.setString(2, "EX");
 			prepStmt.setString(3, "CE");
@@ -198,7 +179,7 @@ public class OracleDao extends Queries {
 			prepStmt.setString(13, "O");
 			prepStmt.setString(14, "2000%");
             if (term == null)
-			  term = this.getCurrentTerm();
+			  term = this.getCurrentTerm(conn);
 			prepStmt.setString(15, term);
 			String[] range = termRange(term);
 			prepStmt.setString(16, range[0]);
@@ -219,10 +200,10 @@ public class OracleDao extends Queries {
 				stu.setFirstname(rs.getString(4));
 				stu.setInitial(rs.getString(5));
 				if (rs.getString(6) != null && rs.getString(6).equals("UG")) {
-					stu.setLevel("Undergraduate");
+					stu.setLevel("UNDERGRAD");
 				} else if (rs.getString(6) != null
 						&& rs.getString(6).equals("GR")) {
-					stu.setLevel("Graduate");
+					stu.setLevel("POSTGRAD");
 				} else {
 					stu.setLevel(rs.getString(6));
 				}
@@ -275,14 +256,14 @@ public class OracleDao extends Queries {
 		}
         return studentStatusMap;
 	}
-    public String getCurrentTerm() {
+    public String getCurrentTerm(Connection conn) {
 		String term = null;
 		NewDateFormatter df = new NewDateFormatter();
 	    
 		String sqlstmt = "select min(stvterm_code) as maxtermcode from stvterm where stvterm_start_date <= ? and stvterm_end_date >= ? and stvterm_code not in ('201905') and stvterm_desc not like  '%Year%Long%'";
 		
 		try {
-			PreparedStatement prepStmt = getDataSource().prepareStatement(sqlstmt);
+			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
             prepStmt.setDate(1, java.sql.Date.valueOf((df.getSimpleDate())));
 			prepStmt.setDate(2, java.sql.Date.valueOf(df.getSimpleDate()));
 
@@ -312,7 +293,6 @@ public class OracleDao extends Queries {
 
 				rs1.close();
 				prepStmt1.close();
-				conn.close();
 				
 			}
 

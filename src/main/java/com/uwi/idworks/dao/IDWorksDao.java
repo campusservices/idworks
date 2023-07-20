@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.uwi.idworks.entity.BannerStudentInfo;
 import com.uwi.idworks.entity.IDWorksInfo;
 import com.uwi.idworks.util.NewDateFormatter;
 
@@ -49,6 +50,9 @@ public class IDWorksDao {
 			e.printStackTrace();
 		}
 	 }
+	 public ArrayList<IDWorksInfo> gatherIDWorksDataTst(){
+		 return new ArrayList<IDWorksInfo>();
+	 }
 	 public ArrayList<IDWorksInfo> gatherIDWorksData(){
 			
 			int i = 0;
@@ -80,7 +84,7 @@ public class IDWorksDao {
 		   }
            return idworkslist;
 	   }
-	 public void insertToIDWorks(IDWorksInfo t){
+	 public void insertToIDWorks(BannerStudentInfo t){
 		 try {
 		    	String insertStatement = "insert into IDWorks_PrintData values ( ? , ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		    	
@@ -88,7 +92,7 @@ public class IDWorksDao {
 		        PreparedStatement prepStmt = conn.prepareStatement(insertStatement);
 		        NewDateFormatter f = new NewDateFormatter();
 		        
-		        prepStmt.setString(1, t.getHolderid().trim());
+		        prepStmt.setString(1, t.getId().trim());
 		        prepStmt.setString(2, t.getLastname().toUpperCase().trim());
 		        prepStmt.setString(3, t.getFirstname().trim());
 		        prepStmt.setString(4, t.getInitial() != null ? getIntitals(t.getInitial()): null);
@@ -114,12 +118,12 @@ public class IDWorksDao {
 		        prepStmt.executeUpdate();
 		        prepStmt.close();
 		        
-		        logger.info("inserted - {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname());
+		        logger.info("inserted - {} {} {}", t.getId(), t.getFirstname(), t.getLastname());
 		    	conn.close();
 		    	
 		    } catch (SQLException e){
 		    	logger.info(e.getMessage());
-		    	logger.info("Insert Failed - {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname());
+		    	logger.info("Insert Failed - {} {} {}", t.getId(), t.getFirstname(), t.getLastname());
 		    }
 		   
 	 }

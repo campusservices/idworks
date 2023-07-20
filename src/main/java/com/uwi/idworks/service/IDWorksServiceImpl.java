@@ -9,32 +9,52 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.uwi.idworks.config.TermConfig;
 import com.uwi.idworks.dao.IDWorksDao;
 import com.uwi.idworks.dao.OracleDao;
 import com.uwi.idworks.entity.BannerStudentInfo;
 import com.uwi.idworks.entity.IDWorksInfo;
+import com.uwi.idworks.service.contract.IDWorksService;
 
-@Service
-public class IDWorksService {
+@Configuration
+@Component
+public class IDWorksServiceImpl implements IDWorksService  {
 
-	Logger logger = LoggerFactory.getLogger(IDWorksService.class);
+	Logger logger = LoggerFactory.getLogger(IDWorksServiceImpl.class);
 	
 	@Autowired
-	private OracleDao oracleDao;
+	private final OracleDao oracleDao;
 	
 	@Autowired
-	private IDWorksDao worksDao;
+	private final IDWorksDao worksDao;
+	
+	@Autowired
+    private final TermConfig termConfig;
+	
+	@Value("${OVERRIDE_SEMESTER}")
+	private String override_semester;
+	
+	@Value("${SEMESTER}")
+	private String semester;
+	
+	public IDWorksServiceImpl(TermConfig termConfig, OracleDao oracleDao, IDWorksDao worksDao) {
+		this.termConfig = termConfig;
+		this.oracleDao = oracleDao;
+		this.worksDao = worksDao;
+	}
 	
 	@Scheduled(cron="0 15 5 ? * MON-SUN")
 //	@Scheduled(initialDelay = 1000, fixedRate = 40000)
 	public void performUpdates( ) {
 		
-		String overrideSemester = System.getenv("OVERRIDE_SEMESTER");
-		String term = overrideSemester == "true" ? System.getenv("SEMESTER"):null;
+		String overrideSemester = System.getenv("OVERRIDE_SEMESTER") != null ? System.getenv("OVERRIDE_SEMESTER"):termConfig.getOverride();
+		String term = overrideSemester == "true" && System.getenv("SEMESTER") != null ? System.getenv("SEMESTER") :termConfig.getSemester();
 
 		try {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);
@@ -45,14 +65,10 @@ public class IDWorksService {
 				}).collect(Collectors.toList());
 				IDWorksInfo info = new IDWorksInfo();
 				if (worksUpdateList.isEmpty()) {
-					info.setHolderid(student.getId());
-					info.setFaculty(student.getFaculty());
-					info.setFirstname(student.getFirstname());
-					info.setLastname(student.getLastname().toUpperCase());
-					info.setInitial(student.getInitial());
-					info.setLevel(student.getLevel().trim());
+					student.setLastname(student.getLastname().trim().toUpperCase());
+					student.setLevel(student.getLevel().trim());
 					info.setStudent("STUDENT");
-					worksDao.insertToIDWorks(info);
+					worksDao.insertToIDWorks(student);
 				} else {
 					for (IDWorksInfo m:worksUpdateList) {
 						boolean change = false;
@@ -64,7 +80,8 @@ public class IDWorksService {
 							m.setFaculty(student.getFaculty());
 							change = true;
 						}
-						if (!m.getLastname().trim().equals(student.getLastname().trim().toUpperCase())) {
+						student.setLastname(student.getLastname().trim().toUpperCase());
+						if (!m.getLastname().toUpperCase().trim().equals(student.getLastname())) {
 							m.setLastname(student.getLastname().toUpperCase());
 							change = true;
 						}

@@ -53,6 +53,7 @@ public class OracleDao {
 		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
 
 		try {
+			oracleConnection.connectDataSource();
 			Connection conn = oracleConnection.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
 			prepStmt.setString(1, studentId);
@@ -162,6 +163,7 @@ public class OracleDao {
 		ArrayList<BannerStudentInfo> studentStatusMap = new ArrayList<BannerStudentInfo>();
 		
 		try {
+			oracleConnection.connectDataSource();
 			Connection conn = oracleConnection.getConnection();
 			PreparedStatement prepStmt = conn.prepareStatement(query.getStudentQuery());
 			prepStmt.setString(1, "AS");

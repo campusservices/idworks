@@ -23,10 +23,9 @@ public class OracleConnection {
 	
 	public OracleConnection(OracleConfig service) {
 		this.service = service;
-		getDataSource();
 	}
 	
-	private void getDataSource() {
+	public void connectDataSource() {
 		
 		try {
 

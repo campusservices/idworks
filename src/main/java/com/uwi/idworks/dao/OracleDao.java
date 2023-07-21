@@ -33,15 +33,15 @@ public class OracleDao {
     private final Queries query;
     
     @Autowired
-    private final OracleConnection oracleConnection;
+    private OracleConnection oracleConnection;
 	
     private String strDate;
     
     
- 
-	public OracleDao(OracleConfig service, OracleConnection oracleConnection, Queries query) {
+ //OracleConnection oracleConnection,
+	public OracleDao(OracleConfig service,  Queries query) {
 		this.service = service;
-		this.oracleConnection = oracleConnection;
+//		this.oracleConnection = oracleConnection;
 		this.query = query;
 	}
 	

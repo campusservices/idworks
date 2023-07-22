@@ -61,7 +61,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 				if (worksUpdateList.isEmpty()) {
 					student.setLastname(student.getLastname().trim().toUpperCase());
 					student.setLevel(student.getLevel().trim());
-					info.setStudent("STUDENT");
+					student.setStudent("STUDENT");
 					worksDao.insertToIDWorks(student);
 				} else {
 					for (IDWorksInfo m:worksUpdateList) {

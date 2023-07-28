@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uwi.idworks.IdworksApplication;
 import com.uwi.idworks.config.OracleConfig;
 import com.uwi.idworks.entity.BannerStudentInfo;
 import com.uwi.idworks.query.Queries;
@@ -162,9 +163,10 @@ public class OracleDao {
 
 		ArrayList<BannerStudentInfo> studentStatusMap = new ArrayList<BannerStudentInfo>();
 		
+		oracleConnection.connectDataSource();
+		Connection conn = oracleConnection.getConnection();
+		
 		try {
-			oracleConnection.connectDataSource();
-			Connection conn = oracleConnection.getConnection();
 			if (conn == null)
 				logger.info("Connection is null");
 			PreparedStatement prepStmt = conn.prepareStatement(query.getStudentQuery());
@@ -257,6 +259,9 @@ public class OracleDao {
 		} catch (Exception e) {
 			
 			e.printStackTrace();
+			conn.close();
+			IdworksApplication.restart();
+			
 		}
         return studentStatusMap;
 	}

@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.uwi.idworks.IdworksApplication;
 import com.uwi.idworks.config.TermConfig;
 import com.uwi.idworks.dao.IDWorksDao;
 import com.uwi.idworks.dao.OracleDao;
@@ -106,9 +107,11 @@ public class IDWorksServiceImpl implements IDWorksService  {
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			IdworksApplication.restart();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			IdworksApplication.restart();
 		}
 	}
 	@Scheduled(cron="0 30 11 ? * MON-SUN")

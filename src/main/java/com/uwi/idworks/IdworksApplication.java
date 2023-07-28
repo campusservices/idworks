@@ -18,16 +18,16 @@ import com.uwi.idworks.service.contract.IDWorksService;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class IdworksApplication {
 	
-	@Autowired
-	private IDWorksService worksService;
-	
+//	@Autowired
+//	private IDWorksService worksService;
+//	
 	public static void main(String[] args) {
 		SpringApplication.run(IdworksApplication.class, args);
 	}
-	@Bean
-	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-		return args -> {
-			worksService.performUpdates();
-		};
-	}
+//	@Bean
+//	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+//		return args -> {
+//			worksService.performUpdates();
+//		};
+//	}
 }

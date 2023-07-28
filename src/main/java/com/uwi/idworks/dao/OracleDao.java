@@ -165,6 +165,8 @@ public class OracleDao {
 		try {
 			oracleConnection.connectDataSource();
 			Connection conn = oracleConnection.getConnection();
+			if (conn == null)
+				logger.info("Connection is null");
 			PreparedStatement prepStmt = conn.prepareStatement(query.getStudentQuery());
 			prepStmt.setString(1, "AS");
 			prepStmt.setString(2, "EX");

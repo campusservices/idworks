@@ -9,6 +9,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.uwi.idworks.service.contract.IDWorksService;
+
 
 
 
@@ -16,16 +18,16 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class IdworksApplication {
 	
-//	@Autowired
-//	private IDWorksService worksService;
+	@Autowired
+	private IDWorksService worksService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(IdworksApplication.class, args);
 	}
-//	@Bean
-//	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-//		return args -> {
-//			worksService.performUpdates();
-//		};
-//	}
+	@Bean
+	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+		return args -> {
+			worksService.performUpdates();
+		};
+	}
 }

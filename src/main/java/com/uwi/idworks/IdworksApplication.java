@@ -21,8 +21,8 @@ import com.uwi.idworks.service.contract.IDWorksService;
 public class IdworksApplication {
 	
 	 private static ConfigurableApplicationContext context;
-//	@Autowired
-//	private IDWorksService worksService;
+	@Autowired
+	private IDWorksService worksService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(IdworksApplication.class, args);
@@ -39,10 +39,10 @@ public class IdworksApplication {
         thread.setDaemon(false);
         thread.start();
     }
-//	@Bean
-//	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-//		return args -> {
-//			worksService.performUpdates();
-//		};
-//	}
+	@Bean
+	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+		return args -> {
+			worksService.performUpdates();
+		};
+	}
 }

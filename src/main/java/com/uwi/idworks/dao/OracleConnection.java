@@ -30,8 +30,7 @@ public class OracleConnection {
 		try {
 
 			logger.info("Starting Oracle Db");
-			Class.forName( service.getDriver());
-			logger.info("connection params {} {} {} {}",service.getDriver(),service.getConnect(),service.getUsername(), service.getPassword());
+			Class.forName(service.getDriver());
 			conn = DriverManager.getConnection(service.getConnect(), 
 															service.getUsername(), 
 															service.getPassword());

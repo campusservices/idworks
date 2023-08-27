@@ -42,36 +42,7 @@ public class OracleDao {
  //OracleConnection oracleConnection,
 	public OracleDao(OracleConfig service,  Queries query) {
 		this.service = service;
-//		this.oracleConnection = oracleConnection;
 		this.query = query;
-	}
-	
-
-    public Long findPidm(String studentId) {
-		
-		Long pidm = 0L;
-
-		String sqlstmt = "select spriden_pidm, spriden_id from spriden where spriden_id = ?";
-
-		try {
-			oracleConnection.connectDataSource();
-			Connection conn = oracleConnection.getConnection();
-			PreparedStatement prepStmt = conn.prepareStatement(sqlstmt);
-			prepStmt.setString(1, studentId);
-			ResultSet rs = prepStmt.executeQuery();
-			while (rs.next()) {
-				pidm = rs.getLong(1);
-			}
-
-			rs.close();
-			prepStmt.close();
-			conn.close();
-			
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
-
-		return pidm;
 	}
    
 	public String[] termRange(String term) {

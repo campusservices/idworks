@@ -55,10 +55,14 @@ public class IDWorksServiceImpl implements IDWorksService  {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();
 			studentList.stream().forEach(student->{
-				List<IDWorksInfo> worksUpdateList = worksList.stream().filter(f->f.getHolderid().equals(student.getId())).map(work->{
+				
+				if (student.getId().equals("400013369"))
+					System.out.println();
+				
+				List<IDWorksInfo> worksUpdateList = worksList.stream().filter(f->f.getHolderid().trim().equals(student.getId().trim())).map(work->{
 					return work;
 				}).collect(Collectors.toList());
-				IDWorksInfo info = new IDWorksInfo();
+				
 				if (worksUpdateList.isEmpty()) {
 					student.setLastname(student.getLastname().trim().toUpperCase());
 					student.setLevel(student.getLevel().trim());

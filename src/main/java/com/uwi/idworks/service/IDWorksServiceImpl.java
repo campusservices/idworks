@@ -56,7 +56,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();
 			studentList.stream().forEach(student->{
 				
-				if (student.getId().equals("400013369"))
+				if (student.getId().equals("400019312"))
 					System.out.println();
 				
 				List<IDWorksInfo> worksUpdateList = worksList.stream().filter(f->f.getHolderid().trim().equals(student.getId().trim())).map(work->{
@@ -96,6 +96,11 @@ public class IDWorksServiceImpl implements IDWorksService  {
 						if (m.getLevel() != null) {
 							int equality = student.getLevel().trim().indexOf(m.getLevel().trim());
 							if (equality < 0) {
+								m.setLevel(student.getLevel());
+								change = true;
+							}
+						} else {
+							if (student.getLevel()!=null) {
 								m.setLevel(student.getLevel());
 								change = true;
 							}

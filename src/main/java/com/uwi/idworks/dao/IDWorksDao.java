@@ -149,12 +149,13 @@ public class IDWorksDao {
 	       try {
 	    	       Connection conn = getConnection();
 			       PreparedStatement prepStmt = conn.prepareStatement(updateStatement);
-			       if (t.getLevel() != null) {
+			       if (t.getUserType() != null) {
 				       prepStmt.setString(1, t.getHolderid());
 				       prepStmt.setString(2, t.getLastname().toUpperCase().trim());
 				       prepStmt.setString(3, t.getFirstname().trim());
 				       prepStmt.setString(4, t.getFaculty().trim());
-				       prepStmt.setString(5, t.getLevel().trim().equals("Undergraduate")?"UNDERGRAD":"POSTGRAD");
+				       //t.getLevel().trim().equals("Undergraduate")?"UNDERGRAD":"POSTGRAD")
+				       prepStmt.setString(5, t.getUserType());
 				       prepStmt.setString(6, t.getStudent());
 				      
 				       prepStmt.setString(7, t.getHolderid());        

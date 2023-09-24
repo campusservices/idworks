@@ -56,7 +56,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();
 			studentList.stream().forEach(student->{
 				
-				if (student.getId().equals("400019312"))
+				if (student.getId().equals("400004811"))
 					System.out.println();
 				
 				List<IDWorksInfo> worksUpdateList = worksList.stream().
@@ -85,7 +85,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 							m.setLastname(student.getLastname().toUpperCase());
 							change = true;
 						}
-						if (!m.getFirstname().trim().equals(StringUtils.capitalize(student.getFirstname().trim()))) {
+						if (!StringUtils.capitalize(m.getFirstname().trim()).equals(StringUtils.capitalize(student.getFirstname().trim()))) {
 							m.setFirstname(student.getFirstname());
 							change = true;
 						}

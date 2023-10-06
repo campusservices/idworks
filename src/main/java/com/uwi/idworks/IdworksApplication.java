@@ -17,7 +17,7 @@ import com.uwi.idworks.service.contract.IDWorksService;
 
 
 @EnableScheduling
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@SpringBootApplication
 public class IdworksApplication {
 	
 	 private static ConfigurableApplicationContext context;

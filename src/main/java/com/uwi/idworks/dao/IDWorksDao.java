@@ -57,7 +57,7 @@ public class IDWorksDao {
 			
 			int i = 0;
 			String selectStatement =
-		    	 "select HolderID,lastName,FirstName,MI,UserType,Department from IDWorks_PrintData";
+		    	 "select distinct HolderID,lastName,FirstName,MI,UserType,Department from IDWorks_PrintData";
 		    try {
 		    	Connection conn = getConnection();
 	          PreparedStatement prepStmt = conn.prepareStatement(selectStatement,ResultSet.TYPE_SCROLL_SENSITIVE, 

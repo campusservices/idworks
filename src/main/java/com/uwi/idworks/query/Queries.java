@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class Queries {
    public String getStudentQuery() {
-	   String selectStatement = "SELECT SPRIDEN.SPRIDEN_ID,SGBSTDN.SGBSTDN_TERM_CODE_EFF,   rtrim(utl_raw.cast_to_varchar2((nlssort(SPRIDEN.SPRIDEN_LAST_NAME, 'nls_sort=binary_ai'))),chr(0))  SPRIDEN_LAST_NAME, "
+	   String selectStatement = "SELECT DISTINCT SPRIDEN.SPRIDEN_ID,SGBSTDN.SGBSTDN_TERM_CODE_EFF,   rtrim(utl_raw.cast_to_varchar2((nlssort(SPRIDEN.SPRIDEN_LAST_NAME, 'nls_sort=binary_ai'))),chr(0))  SPRIDEN_LAST_NAME, "
 				+ "rtrim(utl_raw.cast_to_varchar2((nlssort(SPRIDEN.SPRIDEN_FIRST_NAME, 'nls_sort=binary_ai'))),chr(0)) SPRIDEN_FIRST_NAME, rtrim(utl_raw.cast_to_varchar2((nlssort(SPRIDEN.SPRIDEN_MI, 'nls_sort=binary_ai'))),chr(0))  AS MI, "
 				+ "SGBSTDN.SGBSTDN_LEVL_CODE, SGBSTDN.SGBSTDN_COLL_CODE_1 AS FACULTY, "
 				+ "SGBSTDN.SGBSTDN_CAMP_CODE, SGBSTDN.SGBSTDN_STST_CODE, SGBSTDN.SGBSTDN_STYP_CODE, "

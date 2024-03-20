@@ -50,7 +50,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 		
 		String overrideSemester = System.getenv("ENV_OVERRIDE_SEMESTER") != null ? System.getenv("ENV_OVERRIDE_SEMESTER"):"false";
 		String term = overrideSemester == "true" && System.getenv("ENV_SEMESTER") != null ? System.getenv("ENV_SEMESTER") :null;
-		logger.info("term - {}", term);
+		logger.info("term - {} {}", term, overrideSemester);
 		try {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();

@@ -48,8 +48,8 @@ public class IDWorksServiceImpl implements IDWorksService  {
 //	@Scheduled(initialDelay = 1000, fixedRate = 40000)
 	public void performUpdates( ) {
 		
-		String overrideSemester = System.getenv("OVERRIDE_SEMESTER") != null ? System.getenv("OVERRIDE_SEMESTER"):"false";
-		String term = overrideSemester == "true" && System.getenv("SEMESTER") != null ? System.getenv("SEMESTER") :null;
+		String overrideSemester = System.getenv("ENV_OVERRIDE_SEMESTER") != null ? System.getenv("ENV_OVERRIDE_SEMESTER"):"false";
+		String term = overrideSemester == "true" && System.getenv("ENV_SEMESTER") != null ? System.getenv("ENV_SEMESTER") :null;
 		logger.info("term - {}", term);
 		try {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);

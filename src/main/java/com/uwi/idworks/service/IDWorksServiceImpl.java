@@ -50,14 +50,11 @@ public class IDWorksServiceImpl implements IDWorksService  {
 		
 		String overrideSemester = System.getenv("OVERRIDE_SEMESTER") != null ? System.getenv("OVERRIDE_SEMESTER"):"false";
 		String term = overrideSemester == "true" && System.getenv("SEMESTER") != null ? System.getenv("SEMESTER") :null;
-		
+		logger.info("term - {}", term);
 		try {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();
 			studentList.stream().forEach(student->{
-				
-				if (student.getId().equals("400013584"))
-					System.out.println();
 				
 				List<IDWorksInfo> worksUpdateList = worksList.stream().
 						filter(f->f.getHolderid().trim().equals(student.getId().trim())).map(work->{

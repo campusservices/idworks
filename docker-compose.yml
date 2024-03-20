@@ -5,8 +5,8 @@ services:
      context: .
      dockerfile: Dockerfile
    environment:
-       OVERRIDE_SEMESTER: ${OVERRIDE_SEMESTER}
-       SEMESTER: ${SEMESTER}
+       OVERRIDE_SEMESTER: ${ENV_OVERRIDE_SEMESTER}
+       SEMESTER: ${ENV_SEMESTER}
    ports:
      - "8084:8080"
    image: campusservices/idworks

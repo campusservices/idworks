@@ -7,6 +7,8 @@ services:
    environment:
        ENV_OVERRIDE_SEMESTER: ${ENV_OVERRIDE_SEMESTER}
        ENV_SEMESTER: ${ENV_SEMESTER}
+       name: _JAVA_OPTIONS
+       value: "-Xmx1g"
    ports:
      - "8084:8080"
    image: campusservices/idworks

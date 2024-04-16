@@ -178,10 +178,11 @@ public class OracleDao {
 				if (rs.getString(5) != null) {
 					String[] initialNames = rs.getString(5).split(" ");
 					if (initialNames.length > 0) {
+						System.out.println(stu.getId());
 						Arrays.asList(initialNames).stream().forEach(e->{
 							initials = initials + StringUtils.capitalize(e).charAt(0);
 						});
-						System.out.println(initials);
+						
 					}
 					stu.setInitial(initials);
 				}

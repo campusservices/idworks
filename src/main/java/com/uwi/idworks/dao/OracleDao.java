@@ -179,7 +179,7 @@ public class OracleDao {
 					String[] initialNames = rs.getString(5).split(" ");
 					System.out.println(stu.getId());
 					if (stu.getId().trim().equals("400018188")) {
--						System.out.println(initialNames);
+						System.out.println(initialNames);
 					}
 					if (initialNames.length > 0) {
 						Arrays.asList(initialNames).stream().forEach(e->{

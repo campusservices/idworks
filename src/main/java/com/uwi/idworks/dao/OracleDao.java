@@ -177,11 +177,13 @@ public class OracleDao {
 				stu.setFirstname(StringUtils.capitalize(rs.getString(4)));
 				if (rs.getString(5) != null) {
 					String[] initialNames = rs.getString(5).trim().split(" ");
-					if (initialNames.length > 0) {
+					if (Arrays.asList(initialNames).size() > 0) {
 						Arrays.asList(initialNames).stream().forEach(e->{
 							if (e.trim() != "" && e != null) {
 							  System.out.println("initialNames "  +e.length());
-							  initials = initials + StringUtils.capitalize(e).charAt(0);
+							  if (e.length() > 0) {
+							    initials = initials + StringUtils.capitalize(e).charAt(0);
+							  } 
 							}
 						});
 					}

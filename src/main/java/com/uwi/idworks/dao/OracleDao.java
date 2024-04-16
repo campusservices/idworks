@@ -175,15 +175,16 @@ public class OracleDao {
 				stu.setPidm(getPidm(conn,rs.getString(1)));
 				stu.setLastname(StringUtils.capitalize(rs.getString(3)));
 				stu.setFirstname(StringUtils.capitalize(rs.getString(4)));
-				String[] initialNames = rs.getString(5).split(" ");
-				if (initialNames.length > 0) {
-					Arrays.asList(initialNames).stream().forEach(e->{
-						initials = initials + StringUtils.capitalize(e).substring(0, 1);
-					});
-					System.out.println(initials);
+				if (rs.getString(5) != null) {
+					String[] initialNames = rs.getString(5).split(" ");
+					if (initialNames.length > 0) {
+						Arrays.asList(initialNames).stream().forEach(e->{
+							initials = initials + StringUtils.capitalize(e).substring(0, 1);
+						});
+						System.out.println(initials);
+					}
+					stu.setInitial(initials);
 				}
-				stu.setInitial(initials);
-				
 				if (rs.getString(6) != null && rs.getString(6).equals("UG")) {
 					stu.setLevel("UNDERGRAD");
 				} else if (rs.getString(6) != null

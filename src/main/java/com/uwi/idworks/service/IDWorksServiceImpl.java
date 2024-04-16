@@ -69,6 +69,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 					worksDao.insertToIDWorks(student);
 				} else {
 					for (IDWorksInfo m:worksUpdateList) {
+						System.out.println(student.getFirstname() + " " + m.getFirstname());
 						boolean change = false;
 						if (m.getFaculty() == null) {
 							m.setFaculty(student.getFaculty());

@@ -83,7 +83,10 @@ public class IDWorksServiceImpl implements IDWorksService  {
 							m.setLastname(student.getLastname().toUpperCase());
 							change = true;
 						}
-						if (!StringUtils.capitalize(m.getFirstname().trim()).equals(StringUtils.capitalize(student.getFirstname().trim()))) {
+						if (!m.getInitial().trim().equals(student.getInitial().trim())) {
+						  m.setInitial(student.getInitial());
+						}
+						if (!m.getFirstname().trim().equals(StringUtils.capitalize(student.getFirstname().trim()))) {
 							m.setFirstname(student.getFirstname());
 							change = true;
 						}

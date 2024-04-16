@@ -180,7 +180,6 @@ public class OracleDao {
 					if (Arrays.asList(initialNames).size() > 0) {
 						Arrays.asList(initialNames).stream().forEach(e->{
 							if (e.trim() != "" && e != null) {
-							  System.out.println("initialNames "  +e.length());
 							  if (e.length() > 0) {
 							    initials = initials + StringUtils.capitalize(e).charAt(0);
 							  } 

@@ -142,9 +142,9 @@ public class IDWorksDao {
 		   NewDateFormatter f = new NewDateFormatter();
 		  
 		   String updateStatement =
-	           "update IDWorks_PrintData set holderid = ?, lastname = ?," +
+	           "update IDWorks_PrintData set holderid = ?, lastname = ?, " +
 	           " firstname = ?,  " + 
-				"department = ?, usertype = ?,c_type = ? " +
+				"department = ?, usertype = ?,c_type = ?, mi = ? " +
 				"where holderid = ?";
 	       try {
 	    	       Connection conn = getConnection();
@@ -154,11 +154,10 @@ public class IDWorksDao {
 				       prepStmt.setString(2, t.getLastname().toUpperCase().trim());
 				       prepStmt.setString(3, t.getFirstname().trim());
 				       prepStmt.setString(4, t.getFaculty().trim());
-				       //t.getLevel().trim().equals("Undergraduate")?"UNDERGRAD":"POSTGRAD")
 				       prepStmt.setString(5, t.getUserType());
 				       prepStmt.setString(6, t.getStudent());
-				      
-				       prepStmt.setString(7, t.getHolderid());        
+				       prepStmt.setString(7, t.getInitial());
+				       prepStmt.setString(8, t.getHolderid());        
 				       prepStmt.executeUpdate();
 			           prepStmt.close();
 				       

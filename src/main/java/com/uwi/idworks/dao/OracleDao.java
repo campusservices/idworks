@@ -179,7 +179,7 @@ public class OracleDao {
 					String[] initialNames = rs.getString(5).split(" ");
 					if (initialNames.length > 0) {
 						Arrays.asList(initialNames).stream().forEach(e->{
-							initials = initials + StringUtils.capitalize(e).substring(0, 1);
+							initials = initials + StringUtils.capitalize(e).charAt(0);
 						});
 						System.out.println(initials);
 					}

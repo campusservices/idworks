@@ -184,7 +184,7 @@ public class OracleDao {
 					if (initialNames.length > 0) {
 						Arrays.asList(initialNames).stream().forEach(e->{
 							
-							if (e.trim() != "") {
+							if (e.trim() != "" && e != null) {
 								System.out.println("initialNames "  +e);
 							 initials = initials + StringUtils.capitalize(e).charAt(0);
 							}

@@ -54,6 +54,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 		try {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();
+
 			studentList.stream().forEach(student->{
 				
 				List<IDWorksInfo> worksUpdateList = worksList.stream().

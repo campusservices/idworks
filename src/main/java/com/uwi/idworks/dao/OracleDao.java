@@ -3,12 +3,13 @@ package com.uwi.idworks.dao;
 
 import java.rmi.RemoteException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,9 @@ public class OracleDao {
     
     @Autowired
     private OracleConnection oracleConnection;
-	
-    private String strDate;
     
-    
- //OracleConnection oracleConnection,
+    private String initials = "";
+ 
 	public OracleDao(OracleConfig service,  Queries query) {
 		this.service = service;
 		this.query = query;
@@ -167,15 +166,24 @@ public class OracleDao {
 			int i = 0;
 		  
 			while (rs.next()) {
+				initials="";
 				i++;
 				BannerStudentInfo stu = new BannerStudentInfo();
 
 				stu.setId(rs.getString(1));
 				stu.setTerm(rs.getString(2));
 				stu.setPidm(getPidm(conn,rs.getString(1)));
-				stu.setLastname(rs.getString(3));
-				stu.setFirstname(rs.getString(4));
-				stu.setInitial(rs.getString(5));
+				stu.setLastname(StringUtils.capitalize(rs.getString(3)));
+				stu.setFirstname(StringUtils.capitalize(rs.getString(4)));
+				String[] initialNames = rs.getString(5).split(" ");
+				if (initialNames.length > 0) {
+					Arrays.asList(initialNames).stream().forEach(e->{
+						initials = initials + StringUtils.capitalize(e).substring(0, 1);
+					});
+					System.out.println(initials);
+				}
+				stu.setInitial(initials);
+				
 				if (rs.getString(6) != null && rs.getString(6).equals("UG")) {
 					stu.setLevel("UNDERGRAD");
 				} else if (rs.getString(6) != null

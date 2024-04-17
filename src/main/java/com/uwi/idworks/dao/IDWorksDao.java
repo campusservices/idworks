@@ -162,7 +162,7 @@ public class IDWorksDao {
 				       prepStmt.executeUpdate();
 			           prepStmt.close();
 				       
-			           logger.info("updated - {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname());
+			           //logger.info("updated - {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname());
 			           conn.close();
 			           
 			        }

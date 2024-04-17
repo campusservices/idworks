@@ -88,6 +88,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 							change = true;
 						}
 						if (m.getInitial() != null) {
+							logger.info("idworks initial {} student {}",m.getInitial(), student.getInitial());
 							if (m.getInitial().trim().indexOf(student.getInitial().trim())<0) {
 							  m.setInitial(student.getInitial());
 							  change = true;

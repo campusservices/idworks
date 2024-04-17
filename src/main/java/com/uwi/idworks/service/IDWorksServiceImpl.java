@@ -51,7 +51,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 		String overrideSemester = System.getenv("ENV_OVERRIDE_SEMESTER") != null ? System.getenv("ENV_OVERRIDE_SEMESTER"):"false";
 		String term = overrideSemester == "true" && System.getenv("ENV_SEMESTER") != null ? System.getenv("ENV_SEMESTER") :null;
 		logger.info("term - {} {}", System.getenv("ENV_SEMESTER"), System.getenv("ENV_OVERRIDE_SEMESTER"));
-		
+		term = "202410";
 		try {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();
@@ -88,7 +88,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 							change = true;
 						}
 						if (m.getInitial() != null) {
-							if (!m.getInitial().trim().equals(student.getInitial().trim())) {
+							if (m.getInitial().trim().indexOf(student.getInitial().trim())<0) {
 							  m.setInitial(student.getInitial());
 							  change = true;
 							}
@@ -98,7 +98,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 								change = true;
 							}
 						}
-						if (!m.getFirstname().trim().equals(student.getFirstname().trim())) {
+						if (m.getFirstname().trim().indexOf(student.getFirstname().trim()) < 0) {
 							m.setFirstname(student.getFirstname());
 							change = true;
 						}

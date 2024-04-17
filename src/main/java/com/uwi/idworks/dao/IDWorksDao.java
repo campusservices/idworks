@@ -71,6 +71,7 @@ public class IDWorksDao {
 	        	  
 	        	  s.setHolderid(rs.getString(1));
 	        	  s.setLastname(rs.getString(2));
+	        	  s.setInitial(rs.getString(4));
 	        	  s.setFirstname(rs.getString(3));
 	        	  s.setUserType(rs.getString(5));
 	        	  s.setFaculty(rs.getString(6));

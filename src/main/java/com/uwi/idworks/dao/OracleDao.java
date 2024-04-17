@@ -56,19 +56,19 @@ public class OracleDao {
 			range[0] = year + "20";
 			range[1] = year + "30";
 		} else if (term.substring(4, 6).equals("20")) {
-			range[0] = year + "10";
+			range[0] = Integer.toString((Integer.parseInt(year)+1)) + "10";
 			range[1] = year + "30";
 		} else if (term.substring(4, 6).equals("30")) {
-			range[0] = year + "10";
+			range[0] = Integer.toString((Integer.parseInt(year)+1)) + "10";
 			range[1] = year + "20";
 		}
 
-		if (term.substring(4, 6).equals("30")) {
-			int yr = Integer.parseInt(year) + 1;
-			range[0] = term;
-			range[1] = Integer.toString(yr) + "10";
-			
-		}
+//		if (term.substring(4, 6).equals("30")) {
+//			int yr = Integer.parseInt(year) + 1;
+//			range[0] = term;
+//			range[1] = Integer.toString(yr) + "10";
+//			
+//		}
 		return range;
 	}
 	private int getPidm(Connection conn, String id) {

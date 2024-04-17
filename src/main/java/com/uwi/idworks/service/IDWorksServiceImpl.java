@@ -51,12 +51,15 @@ public class IDWorksServiceImpl implements IDWorksService  {
 		String overrideSemester = System.getenv("ENV_OVERRIDE_SEMESTER") != null ? System.getenv("ENV_OVERRIDE_SEMESTER"):"false";
 		String term = overrideSemester == "true" && System.getenv("ENV_SEMESTER") != null ? System.getenv("ENV_SEMESTER") :null;
 		logger.info("term - {} {}", System.getenv("ENV_SEMESTER"), System.getenv("ENV_OVERRIDE_SEMESTER"));
+		
 		try {
 			ArrayList<BannerStudentInfo>  studentList = oracleDao.collectInfo(term);
 			ArrayList<IDWorksInfo> worksList = worksDao.gatherIDWorksData();
 
 			studentList.stream().forEach(student->{
-				
+				if (student.getId().equals("400020599")) {
+					System.out.println();
+				}
 				List<IDWorksInfo> worksUpdateList = worksList.stream().
 						filter(f->f.getHolderid().trim().equals(student.getId().trim())).map(work->{
 					return work;
@@ -73,10 +76,11 @@ public class IDWorksServiceImpl implements IDWorksService  {
 						if (m.getFaculty() == null) {
 							m.setFaculty(student.getFaculty());
 							change = true;
-						}
-						if (m.getFaculty().trim().indexOf(student.getFaculty().trim())<0) {
-							m.setFaculty(student.getFaculty());
-							change = true;
+						} else {
+							if (m.getFaculty().trim().indexOf(student.getFaculty().trim())<0) {
+								m.setFaculty(student.getFaculty());
+								change = true;
+							}
 						}
 						student.setLastname(student.getLastname().trim().toUpperCase());
 						if (!m.getLastname().toUpperCase().trim().equals(student.getLastname())) {

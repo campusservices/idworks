@@ -87,7 +87,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 							m.setLastname(student.getLastname().toUpperCase());
 							change = true;
 						}
-						if (m.getInitial() != null) {
+						if (m.getInitial() != null && student.getInitial() != null) {
 							logger.info("idworks initial {} student {}",m.getInitial(), student.getInitial());
 							if (m.getInitial().trim().indexOf(student.getInitial().trim())<0) {
 							  m.setInitial(student.getInitial());

@@ -150,7 +150,7 @@ public class IDWorksDao {
 				"where holderid = ?";
 	       try {
 	    	       Connection conn = getConnection();
-			       PreparedStatement prepStmt = conn.prepareStatement(updateStatement);
+	    	       PreparedStatement prepStmt = conn.prepareStatement(updateStatement);
 			       if (t.getUserType() != null) {
 				       prepStmt.setString(1, t.getHolderid());
 				       prepStmt.setString(2, t.getLastname().toUpperCase().trim());
@@ -158,7 +158,7 @@ public class IDWorksDao {
 				       prepStmt.setString(4, t.getFaculty().trim());
 				       prepStmt.setString(5, t.getUserType());
 				       prepStmt.setString(6, t.getStudent());
-				       prepStmt.setString(7, t.getInitial());
+				       prepStmt.setString(7, t.getInitial().length() > 2 ? t.getInitial().substring(0,2): t.getInitial());
 				       prepStmt.setString(8, t.getHolderid());        
 				       prepStmt.executeUpdate();
 			           prepStmt.close();

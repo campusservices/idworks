@@ -142,6 +142,7 @@ public class IDWorksDao {
 		   
 		   NewDateFormatter f = new NewDateFormatter();
 		  
+		  
 		   String updateStatement =
 	           "update IDWorks_PrintData set holderid = ?, lastname = ?, " +
 	           " firstname = ?,  " + 
@@ -162,12 +163,12 @@ public class IDWorksDao {
 				       prepStmt.executeUpdate();
 			           prepStmt.close();
 				       
-			           //logger.info("updated - {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname());
+			           logger.info("updated - {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname());
 			           conn.close();
 			           
 			        }
 	       } catch (SQLException e){
-	    	   logger.info("updated - {} {} {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname(),t.getFaculty(), t.getLevel());
+	    	   logger.info("tried to update - {} {} {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname(),t.getFaculty(), t.getLevel());
 	    	   logger.info("Error updating ID Works DB - {}",e.getMessage());
 	       }
 	       

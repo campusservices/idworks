@@ -58,10 +58,6 @@ public class IDWorksServiceImpl implements IDWorksService  {
 
 			studentList.stream().forEach(student->{
 				
-				if (student.getId().equals("400019760")) {
-					System.out.println();
-				}
-				
 				List<IDWorksInfo> worksUpdateList = worksList.stream().
 						filter(f->f.getHolderid().trim().equals(student.getId().trim())).map(work->{
 					return work;

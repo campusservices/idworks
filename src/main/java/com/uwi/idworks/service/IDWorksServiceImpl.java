@@ -58,6 +58,10 @@ public class IDWorksServiceImpl implements IDWorksService  {
 
 			studentList.stream().forEach(student->{
 				
+				if (student.getId().equals("400019760")) {
+					System.out.println();
+				}
+				
 				List<IDWorksInfo> worksUpdateList = worksList.stream().
 						filter(f->f.getHolderid().trim().equals(student.getId().trim())).map(work->{
 					return work;
@@ -86,7 +90,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 							change = true;
 						}
 						if (m.getInitial() != null && student.getInitial() != null) {
-							if (m.getInitial().trim().indexOf(student.getInitial().trim())<0) {
+							if (student.getInitial().trim().indexOf(m.getInitial().trim())<0) {
 							  m.setInitial(student.getInitial());
 							  change = true;
 							}

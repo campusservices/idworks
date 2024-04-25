@@ -31,6 +31,6 @@ public class Queries {
 				+ "order by SPRIDEN.SPRIDEN_LAST_NAME, SPRIDEN.SPRIDEN_FIRST_NAME,SGBSTDN.SGBSTDN_TERM_CODE_EFF ";
 
 		return selectStatement;
-
+//417001290
    }
 }

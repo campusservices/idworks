@@ -158,7 +158,7 @@ public class IDWorksDao {
 				       prepStmt.setString(4, t.getFaculty().trim());
 				       prepStmt.setString(5, t.getUserType());
 				       prepStmt.setString(6, t.getStudent());
-				       prepStmt.setString(7, t.getInitial().length() > 2 ? t.getInitial().substring(0,2): t.getInitial());
+				       prepStmt.setString(7, t.getInitial() != null && t.getInitial().length() > 2 ? t.getInitial().substring(0,2): t.getInitial());
 				       prepStmt.setString(8, t.getHolderid());        
 				       prepStmt.executeUpdate();
 			           prepStmt.close();

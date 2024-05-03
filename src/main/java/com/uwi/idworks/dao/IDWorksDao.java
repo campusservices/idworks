@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.uwi.idworks.IdworksApplication;
 import com.uwi.idworks.entity.BannerStudentInfo;
 import com.uwi.idworks.entity.IDWorksInfo;
 import com.uwi.idworks.util.NewDateFormatter;
@@ -90,6 +91,9 @@ public class IDWorksDao {
 		    	String insertStatement = "insert into IDWorks_PrintData values ( ? , ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		    	
 		    	Connection conn = getConnection();
+		    	if (conn == null) {
+		    		IdworksApplication.restart();
+		    	}
 		        PreparedStatement prepStmt = conn.prepareStatement(insertStatement);
 		        NewDateFormatter f = new NewDateFormatter();
 		        
@@ -150,6 +154,9 @@ public class IDWorksDao {
 				"where holderid = ?";
 	       try {
 	    	       Connection conn = getConnection();
+	    	       if (conn == null) {
+			    		IdworksApplication.restart();
+			       }
 	    	       PreparedStatement prepStmt = conn.prepareStatement(updateStatement);
 			       if (t.getUserType() != null) {
 				       prepStmt.setString(1, t.getHolderid());
@@ -170,6 +177,7 @@ public class IDWorksDao {
 	       } catch (SQLException e){
 	    	   logger.info("tried to update - {} {} {} {} {}", t.getHolderid(), t.getFirstname(), t.getLastname(),t.getFaculty(), t.getLevel());
 	    	   logger.info("Error updating ID Works DB - {}",e.getMessage());
+	    	  
 	       }
 	       
 

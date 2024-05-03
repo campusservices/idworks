@@ -131,8 +131,11 @@ public class OracleDao {
 		Connection conn = oracleConnection.getConnection();
 		
 		try {
-			if (conn == null)
+			if (conn == null) {
 				logger.info("Connection is null");
+				IdworksApplication.restart();
+		     }
+			
 			PreparedStatement prepStmt = conn.prepareStatement(query.getStudentQuery());
 			prepStmt.setString(1, "AS");
 			prepStmt.setString(2, "EX");

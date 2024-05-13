@@ -83,6 +83,7 @@ public class IDWorksDao {
 	         
 		   } catch (Exception e){
 			   logger.info("Error accessing data from ID Works DB - {}",e.getMessage());
+			   IdworksApplication.restart();
 		   }
            return idworkslist;
 	   }

@@ -25,7 +25,7 @@ public class IdworksApplication {
 	private IDWorksService worksService;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(IdworksApplication.class, args);
+		context = SpringApplication.run(IdworksApplication.class, args);
 	}
     public static void restart() {
 		

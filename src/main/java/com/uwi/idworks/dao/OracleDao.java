@@ -110,8 +110,7 @@ public class OracleDao {
     		
     	} catch (SQLException e) {
 			e.printStackTrace();
-		}
-    	
+		} 
     	
     	return faculty;
     }
@@ -234,7 +233,6 @@ public class OracleDao {
 			
 			prepStmt.close();
 			rs.close();
-            conn.close();
             
 		} catch (Exception e) {
 			
@@ -242,6 +240,13 @@ public class OracleDao {
 			conn.close();
 			IdworksApplication.restart();
 			
+		} finally {
+    		try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 		}
         return studentStatusMap;
 	}

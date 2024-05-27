@@ -44,7 +44,7 @@ public class IDWorksServiceImpl implements IDWorksService  {
 		this.worksDao = worksDao;
 	}
 	
-	@Scheduled(cron="0 15 5 ? * MON-SUN")
+	@Scheduled(cron="0 00 10 ? * MON-SUN")
 //	@Scheduled(initialDelay = 1000, fixedRate = 40000)
 	public void performUpdates( ) {
 		

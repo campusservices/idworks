@@ -35,7 +35,6 @@
 		<dependency>
 		    <groupId>org.mockito</groupId> 
 		    <artifactId>mockito-core</artifactId>
-		    <version>5.3.1</version> 
 		    <scope>test</scope>
 		</dependency>
 
@@ -57,12 +56,12 @@
 		<!-- Thanks for using https://jar-download.com -->
         
         
-        <dependency>
+        <!-- <dependency>
 		    <groupId>org.junit-pioneer</groupId>
 		    <artifactId>junit-pioneer</artifactId>
 		    <version>2.1.0</version>
 		    <scope>test</scope>
-		</dependency>
+		</dependency>-->
         
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

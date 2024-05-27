@@ -10,7 +10,7 @@ services:
        name: _JAVA_OPTIONS
        value: "-Xmx1g"
    ports:
-     - "8084:8080"
+     - "8090:8080"
    image: campusservices/idworks
    container_name: idworkscontainer
    restart: always

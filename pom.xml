@@ -11,7 +11,7 @@
 	<groupId>com.uwi</groupId>
 	<artifactId>idworksproject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>idworksproject</name>
 	<description>IDWorks Photo Uploads</description>
 	<properties>
